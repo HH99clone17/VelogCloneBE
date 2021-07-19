@@ -32,9 +32,10 @@ public class CommentService {
         Comment comment =commentRepository.findById(commentId).orElseThrow(
                 () -> new NullPointerException("해당 댓글이 존재하지 않습니다.")
         );
-        if(!comment.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("수정 권한이 없습니다.");
-        }
+
+//        if(!comment.getUserId().equals(userId)) {
+//            throw new IllegalArgumentException("수정 권한이 없습니다.");
+//        }
         comment.update(requestDto);
         return comment.getCommentId();
 
@@ -45,9 +46,9 @@ public class CommentService {
         Comment comment =commentRepository.findById(commentId).orElseThrow(
                 () -> new NullPointerException("해당 댓글이 존재하지 않습니다.")
         );
-        if(!comment.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
-        }
+//        if(!comment.getUserId().equals(userId)) {
+//            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+//        }
         commentRepository.deleteById(commentId);
     }
 }
