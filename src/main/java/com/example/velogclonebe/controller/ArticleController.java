@@ -2,6 +2,7 @@ package com.example.velogclonebe.controller;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
 import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.service.ArticleService;
 
@@ -38,6 +39,12 @@ public class ArticleController {
     @DeleteMapping("/api/article/{articleId}")
     public void deleteArticle(@PathVariable Long articldId, @RequestBody ArticleRequestDto articleRequestDto) {
         articleService.deleteArticle(articldId, articleRequestDto);
+    }
+
+    // 게시글 상세페이지 요청
+    @GetMapping("/api/article/{articleId}")
+    public ArticleResponseDto getArticleDetail(@PathVariable Long articleId){
+        return articleService.getArticleDetail(articleId);
     }
 
 

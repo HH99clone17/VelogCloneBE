@@ -2,7 +2,10 @@ package com.example.velogclonebe.service;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
+import com.example.velogclonebe.domain.dto.response.CommentGetResponseDto;
 import com.example.velogclonebe.domain.entity.Article;
+import com.example.velogclonebe.domain.entity.Comment;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -48,10 +52,23 @@ public class ArticleService {
                 ()->new ApiRequestException("해당 글이 존재하지 않습니다."));
 
         // 글 삭제시 해당 글에 연관된 댓글들 삭제 (commentRepository 미반영)
-        // commentRepository.deleteAllByArticle(article);
-
+        commentRepository.deleteAllByArticle(article);
         articleRepository.deleteById(articleId);
     }
-    
+
+    // 게시글 상세페이지 요청 처리
+    public ArticleResponseDto getArticleDetail(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(
+                ()->new ApiRequestException("해당 글이 존재하지 않습니다."));
+        // 게시글에 해당하는 댓글 리스트로 받아옴
+        List<Comment> commentList = commentRepository.findAllByArticleOrderByCreatedAtDesc(article);
+        // Dto로 넘겨주기 위한 작업
+        List<CommentGetResponseDto> commentDtoList = commentList.stream()
+                .map(CommentGetResponseDto::new)
+                .collect(Collectors.toList());
+        // 게시글 응답을 위해 articleresponsedto를 생성해서 반환
+        ArticleResponseDto articleResponseDto = new ArticleResponseDto(article, commentDtoList);
+        return articleResponseDto;
+    }
 
 }
