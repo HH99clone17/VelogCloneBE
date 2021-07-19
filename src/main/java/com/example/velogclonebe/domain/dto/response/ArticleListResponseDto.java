@@ -18,7 +18,6 @@ public class ArticleListResponseDto {
 
     // public ArticleListResponseDto(Article article, List<Comment> commentList) {
     public ArticleListResponseDto(Article article) {
-
         this.articleId = article.getArticleId();
         this.title = article.getTitle();
         this.text = article.getText();
