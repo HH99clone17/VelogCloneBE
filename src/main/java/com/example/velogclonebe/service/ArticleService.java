@@ -2,14 +2,13 @@ package com.example.velogclonebe.service;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
 import com.example.velogclonebe.domain.dto.response.CommentGetResponseDto;
 import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.domain.entity.Comment;
-import com.example.velogclonebe.domain.entity.User;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
-import com.example.velogclonebe.domain.repository.UserRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
+
 
     // 게시글 리스트 조회
     @Transactional
@@ -72,6 +71,7 @@ public class ArticleService {
     }
 
     // 게시글 상세페이지 요청 처리
+    @Transactional
     public ArticleResponseDto getArticleDetail(Long articleId) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
@@ -90,4 +90,10 @@ public class ArticleService {
         return articleResponseDto;
     }
 
+    // 검색
+    @Transactional
+    public List<Article> getSearchArticles(String keyword) {
+        List<Article> searchedArticles = articleRepository.findByTitleContaining(keyword);
+        return searchedArticles;
+    }
 }

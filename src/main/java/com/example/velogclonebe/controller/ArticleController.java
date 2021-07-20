@@ -53,5 +53,11 @@ public class ArticleController {
         return articleService.getArticleDetail(articleId);
     }
 
+    // 검색
+    @GetMapping("/api/search")
+    public List<Article> getSeachedArticles(@RequestParam String keyword) {
+        return articleService.getSearchArticles(keyword);
+    }
+
 
 }
