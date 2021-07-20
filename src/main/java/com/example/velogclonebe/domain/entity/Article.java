@@ -2,6 +2,7 @@ package com.example.velogclonebe.domain.entity;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.request.ArticleUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,24 +33,28 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String image;
 
-    // @Column(nullable = false)
-    // private Long userId;
+    @Column(nullable = false)
+    private String username;
 
-    public Article(ArticleRequestDto articleRequestDto) {
+    @Column(nullable = false)
+    private Long countComment;
+
+
+    public Article(ArticleRequestDto articleRequestDto, String username) {
         this.title = articleRequestDto.getTitle();
         this.text = articleRequestDto.getText();
         this.textHtml = articleRequestDto.getTextHtml();
         this.textMarkdown = articleRequestDto.getTextMarkdown();
         this.image = articleRequestDto.getImage();
-        // this.userId = articleRequestDto.getUserId();
+        this.username = username;
+        this.countComment = 0L;
     }
 
-    public void update(ArticleRequestDto articleRequestDto) {
+    public void update(ArticleUpdateRequestDto articleRequestDto) {
         this.title = articleRequestDto.getTitle();
         this.text = articleRequestDto.getText();
         this.textHtml = articleRequestDto.getTextHtml();
         this.textMarkdown = articleRequestDto.getTextMarkdown();
-        this.image = articleRequestDto.getImage();
     }
 
 
