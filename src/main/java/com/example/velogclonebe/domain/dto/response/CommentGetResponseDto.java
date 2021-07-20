@@ -11,11 +11,11 @@ import lombok.Setter;
 public class CommentGetResponseDto {
     private Long commentId;
     private String commentText;
-    private Long userId;
+    private String username;
 
     public CommentGetResponseDto(Comment comment){
         this.commentId = comment.getCommentId();
         this.commentText = comment.getCommentText();
-        this.userId = comment.getUserId();
+        this.username = comment.getUsername();
     }
 }
