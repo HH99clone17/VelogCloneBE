@@ -34,7 +34,7 @@ public class ArticleController {
     public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
         // System.out.println(userDetails.getUsername());
         String username = userDetails.getUsername();
-        articleService.setArticle(articleRequestDto, username, file);
+        articleService.setArticle(articleRequestDto, file, username);
     }
 
     // 게시글 수정
@@ -59,7 +59,7 @@ public class ArticleController {
 
     // 검색
     @GetMapping("/api/search")
-    public List<Article> getSeachedArticles(@RequestParam String keyword) {
+    public List<ArticleListResponseDto> getSeachedArticles(@RequestParam String keyword) {
         return articleService.getSearchArticles(keyword);
     }
 

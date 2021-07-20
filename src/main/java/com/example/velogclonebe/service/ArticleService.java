@@ -107,9 +107,13 @@ public class ArticleService {
 
     // 검색
     @Transactional
-    public List<Article> getSearchArticles(String keyword) {
+    public List<ArticleListResponseDto> getSearchArticles(String keyword) {
         List<Article> searchedArticles = articleRepository.findByTitleContaining(keyword);
 
-        return searchedArticles;
+        List<ArticleListResponseDto> responseDto = searchedArticles.stream()
+                .map(article -> new ArticleListResponseDto(article, commentRepository.findAllByArticleOrderByCreatedAtDesc(article)))
+                .collect(Collectors.toList());
+        return responseDto;
     }
+
 }
