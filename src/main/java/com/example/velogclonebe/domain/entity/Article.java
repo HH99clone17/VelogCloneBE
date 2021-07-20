@@ -32,15 +32,19 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String image;
 
+    @Column(nullable = false)
+    private String imageUrl;
+
     // @Column(nullable = false)
     // private Long userId;
 
-    public Article(ArticleRequestDto articleRequestDto) {
+    public Article(ArticleRequestDto articleRequestDto, String imageUrl) {
         this.title = articleRequestDto.getTitle();
         this.text = articleRequestDto.getText();
         this.textHtml = articleRequestDto.getTextHtml();
         this.textMarkdown = articleRequestDto.getTextMarkdown();
         this.image = articleRequestDto.getImage();
+        this.imageUrl = imageUrl;
         // this.userId = articleRequestDto.getUserId();
     }
 

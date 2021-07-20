@@ -9,10 +9,13 @@ import com.example.velogclonebe.domain.entity.Comment;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
+import com.example.velogclonebe.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final S3Uploader s3Uploader;
 
     // 게시글 리스트 조회
     @Transactional
@@ -32,8 +36,9 @@ public class ArticleService {
 
     // 게시글 작성
     @Transactional
-    public void setArticle(ArticleRequestDto articleRequestDto) {
-        Article article = new Article(articleRequestDto);
+    public void setArticle(ArticleRequestDto articleRequestDto, MultipartFile file) throws IOException {
+        String imageUrl = s3Uploader.upload(file, "static");
+        Article article = new Article(articleRequestDto, imageUrl);
         articleRepository.save(article);
     }
 
@@ -54,6 +59,7 @@ public class ArticleService {
         // 글 삭제시 해당 글에 연관된 댓글들 삭제 (commentRepository 미반영)
         commentRepository.deleteAllByArticle(article);
         articleRepository.deleteById(articleId);
+        s3Uploader.deletes3(article.getImageUrl());
     }
 
     // 게시글 상세페이지 요청 처리

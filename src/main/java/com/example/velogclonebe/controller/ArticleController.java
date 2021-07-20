@@ -8,7 +8,9 @@ import com.example.velogclonebe.service.ArticleService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,12 +27,12 @@ public class ArticleController {
 
     // 게시글 작성
     @PostMapping("/api/article")
-    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.setArticle(articleRequestDto);
+    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @RequestParam("file") MultipartFile file) throws IOException {
+        articleService.setArticle(articleRequestDto, file);
     }
 
     // 게시글 수정
-    @PutMapping("/api/article/{}")
+    @PutMapping("/api/article/{articleId}")
     public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto) {
         articleService.updateArticle(articleId, articleRequestDto);
     }
