@@ -2,6 +2,8 @@ package com.example.velogclonebe.controller;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.request.ArticleUpdateRequestDto;
+import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
 import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.service.ArticleService;
@@ -21,7 +23,7 @@ public class ArticleController {
 
     // 게시글 리스트 조회
     @GetMapping("/api/article")
-    public List<Article> getArticle() {
+    public List<ArticleListResponseDto> getArticle() {
         return articleService.getArticles();
     }
 
@@ -36,15 +38,16 @@ public class ArticleController {
 
     // 게시글 수정
     @PutMapping("/api/article/{articleId}")
-    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
-        articleService.updateArticle(articleId, articleRequestDto, userDetails.getUsername());
+    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        articleService.updateArticle(articleId, articleUpdateRequestDto, username);
     }
 
     // 게시글 삭제
     @DeleteMapping("/api/article/{articleId}")
-    public void deleteArticle(@PathVariable Long articldId, @AuthenticationPrincipal UserDetails userDetails) {
+    public void deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        articleService.deleteArticle(articldId, username);
+        articleService.deleteArticle(articleId, username);
     }
 
     // 게시글 상세페이지 요청

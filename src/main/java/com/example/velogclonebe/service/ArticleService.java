@@ -2,6 +2,7 @@ package com.example.velogclonebe.service;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.request.ArticleUpdateRequestDto;
 import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
 import com.example.velogclonebe.domain.dto.response.CommentGetResponseDto;
@@ -27,9 +28,17 @@ public class ArticleService {
 
     // 게시글 리스트 조회
     @Transactional
-    public List<Article> getArticles() {
+    public List<ArticleListResponseDto> getArticles() {
+
         List<Article> articleList = articleRepository.findAllByOrderByCreatedAtDesc();
-        return articleList;
+        // List<Article> articleList = articleRepository.findAllAndCountComment();
+
+        List<ArticleListResponseDto> responseDto = articleList.stream()
+                .map(article -> new ArticleListResponseDto(article, commentRepository.findAllByArticleOrderByCreatedAtDesc(article)))
+                .collect(Collectors.toList());
+
+        return responseDto;
+
     }
 
     // 게시글 작성
@@ -41,16 +50,16 @@ public class ArticleService {
 
     // 게시글 수정
     @Transactional
-    public void updateArticle(Long articleId, ArticleRequestDto articleRequestDto, String username) {
+    public void updateArticle(Long articleId, ArticleUpdateRequestDto articleUpdateRequestDto, String username) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new ApiRequestException("해당 글이 존재하지 않습니다."));
+                ()  -> new ApiRequestException("해당 글이 존재하지 않습니다."));
 
         if (!article.getUsername().equals(username)) {
             throw new ApiRequestException("수정 권한이 없습니다.");
         }
 
-        article.update(articleRequestDto);
+        article.update(articleUpdateRequestDto);
     }
 
     // 게시글 삭제
@@ -94,6 +103,7 @@ public class ArticleService {
     @Transactional
     public List<Article> getSearchArticles(String keyword) {
         List<Article> searchedArticles = articleRepository.findByTitleContaining(keyword);
+
         return searchedArticles;
     }
 }

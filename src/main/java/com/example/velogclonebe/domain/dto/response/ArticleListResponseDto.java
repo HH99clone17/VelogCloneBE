@@ -11,17 +11,19 @@ import java.util.List;
 public class ArticleListResponseDto {
 
     private Long articleId;
-        private String title;
-        private String text;
-        private String textHtml;
-        private String textMarkdown;
+    private String title;
+    private String text;
+    private String textHtml;
+    private String textMarkdown;
+    private int countComment;
 
-    // public ArticleListResponseDto(Article article, List<Comment> commentList) {
-    public ArticleListResponseDto(Article article) {
+
+    public ArticleListResponseDto(Article article, List<Comment> commentList) {
         this.articleId = article.getArticleId();
         this.title = article.getTitle();
         this.text = article.getText();
         this.textHtml = article.getTextHtml();
         this.textMarkdown = article.getTextMarkdown();
+        this.countComment = commentList.size();
     }
 }
