@@ -2,11 +2,15 @@ package com.example.velogclonebe.controller;
 
 
 import com.example.velogclonebe.domain.dto.request.ArticleRequestDto;
+import com.example.velogclonebe.domain.dto.request.ArticleUpdateRequestDto;
+import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.ArticleResponseDto;
 import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.service.ArticleService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,32 +25,42 @@ public class ArticleController {
 
     // 게시글 리스트 조회
     @GetMapping("/api/article")
-    public List<Article> getArticle() {
+    public List<ArticleListResponseDto> getArticle() {
         return articleService.getArticles();
     }
 
     // 게시글 작성
     @PostMapping("/api/article")
-    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @RequestParam("file") MultipartFile file) throws IOException {
-        articleService.setArticle(articleRequestDto, file);
+    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
+        // System.out.println(userDetails.getUsername());
+        String username = userDetails.getUsername();
+        articleService.setArticle(articleRequestDto, username, file);
     }
 
     // 게시글 수정
     @PutMapping("/api/article/{articleId}")
-    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.updateArticle(articleId, articleRequestDto);
+    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        articleService.updateArticle(articleId, articleUpdateRequestDto, username);
     }
 
     // 게시글 삭제
     @DeleteMapping("/api/article/{articleId}")
-    public void deleteArticle(@PathVariable Long articldId, @RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.deleteArticle(articldId, articleRequestDto);
+    public void deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        articleService.deleteArticle(articleId, username);
     }
 
     // 게시글 상세페이지 요청
     @GetMapping("/api/article/{articleId}")
-    public ArticleResponseDto getArticleDetail(@PathVariable Long articleId){
+    public ArticleResponseDto getArticleDetail(@PathVariable Long articleId) {
         return articleService.getArticleDetail(articleId);
+    }
+
+    // 검색
+    @GetMapping("/api/search")
+    public List<Article> getSeachedArticles(@RequestParam String keyword) {
+        return articleService.getSearchArticles(keyword);
     }
 
 
