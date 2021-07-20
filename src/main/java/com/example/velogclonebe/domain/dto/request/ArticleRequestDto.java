@@ -14,5 +14,5 @@ public class ArticleRequestDto {
     private String textHtml;
     private String textMarkdown;
     private String image;
-    // private Long userId;
+    private Long username;
 }

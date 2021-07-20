@@ -19,7 +19,7 @@ public class User {
     private Long userId;
     private String username;
     private String password;
-    private String roles; // 한 유저의 롤이 하나 이상일 때의 세팅 (USER, ADMIN)
+    private String roles; // 한 유저의 롤이 하나 이상일 때의 세팅 (USER, ADMIN <- 이런 형식으로 저장)
 
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {

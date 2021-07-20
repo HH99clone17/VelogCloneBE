@@ -25,21 +25,22 @@ public class UserController {
         return "회원가입 완료";
     }
 
-    // user, manager, admin 권한 접근 가능
+    // TEST - user, manager, admin 권한 접근 가능
     @GetMapping("/api/v1/user")
     public String user() {
         return "user";
     }
 
-    // manager, admin 권한 접근 가능
+    // TEST - manager, admin 권한 접근 가능
     // @GetMapping("/api/v1/manager")
     // public String manager() {
     //     return "manager";
     // }
 
-    // admin 권한 접근 가능
+    // TEST - admin 권한 접근 가능
     // @GetMapping("/api/v1/admin")
     // public String admin() {
     //     return "admin";
     // }
+
 }

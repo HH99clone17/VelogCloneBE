@@ -7,6 +7,8 @@ import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.service.ArticleService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,25 +27,29 @@ public class ArticleController {
 
     // 게시글 작성
     @PostMapping("/api/article")
-    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.setArticle(articleRequestDto);
+    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
+
+        // System.out.println(userDetails.getUsername());
+        String username = userDetails.getUsername();
+        articleService.setArticle(articleRequestDto, username);
     }
 
     // 게시글 수정
-    @PutMapping("/api/article/{}")
-    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.updateArticle(articleId, articleRequestDto);
+    @PutMapping("/api/article/{articleId}")
+    public void updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
+        articleService.updateArticle(articleId, articleRequestDto, userDetails.getUsername());
     }
 
     // 게시글 삭제
     @DeleteMapping("/api/article/{articleId}")
-    public void deleteArticle(@PathVariable Long articldId, @RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.deleteArticle(articldId, articleRequestDto);
+    public void deleteArticle(@PathVariable Long articldId, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        articleService.deleteArticle(articldId, username);
     }
 
     // 게시글 상세페이지 요청
     @GetMapping("/api/article/{articleId}")
-    public ArticleResponseDto getArticleDetail(@PathVariable Long articleId){
+    public ArticleResponseDto getArticleDetail(@PathVariable Long articleId) {
         return articleService.getArticleDetail(articleId);
     }
 
