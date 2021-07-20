@@ -31,21 +31,21 @@ public class Article extends Timestamped {
     private String textMarkdown;
 
     @Column(nullable = false)
-    private String image;
-
+    private String imageUrl;
+    
     @Column(nullable = false)
     private String username;
-
+  
     @Column(nullable = false)
     private Long countComment;
 
 
-    public Article(ArticleRequestDto articleRequestDto, String username) {
+    public Article(ArticleRequestDto articleRequestDto, String imageUrl,String username) {
         this.title = articleRequestDto.getTitle();
         this.text = articleRequestDto.getText();
         this.textHtml = articleRequestDto.getTextHtml();
         this.textMarkdown = articleRequestDto.getTextMarkdown();
-        this.image = articleRequestDto.getImage();
+        this.imageUrl = imageUrl;
         this.username = username;
         this.countComment = 0L;
     }

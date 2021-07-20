@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,11 +31,10 @@ public class ArticleController {
 
     // 게시글 작성
     @PostMapping("/api/article")
-    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
-
+    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
         // System.out.println(userDetails.getUsername());
         String username = userDetails.getUsername();
-        articleService.setArticle(articleRequestDto, username);
+        articleService.setArticle(articleRequestDto, username, file);
     }
 
     // 게시글 수정
