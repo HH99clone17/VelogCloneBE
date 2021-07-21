@@ -31,10 +31,20 @@ public class ArticleController {
 
     // 게시글 작성
     @PostMapping("/api/article")
-    public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
-        // System.out.println(userDetails.getUsername());
+    // public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
+    public void setArticle(
+                @RequestParam("title") String title
+                , @RequestParam("text") String text
+                , @RequestParam("textHtml") String textHtml
+                , @RequestParam("textMarkdown") String textMarkdown
+                , @RequestParam("file") MultipartFile file
+                , @AuthenticationPrincipal UserDetails userDetails
+            ) throws IOException {
+
+
         String username = userDetails.getUsername();
-        articleService.setArticle(articleRequestDto, file, username);
+        // articleService.setArticle(articleRequestDto, file, username);
+        articleService.setArticle(title, text, textHtml, textMarkdown, file, username);
     }
 
     // 게시글 수정
