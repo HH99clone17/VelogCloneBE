@@ -30,7 +30,7 @@ public class UserController {
     public String join(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles("ROLE_USER");
-        userRepository.save(user);
+        userService.setUser(user);
         return "회원가입 완료";
     }
 
