@@ -6,6 +6,7 @@ import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.domain.entity.Comment;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
+import com.example.velogclonebe.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class CommentService {
     public Long createComment(CommentCreateRequestDto requestDto, Long articleId, String username) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
-                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 게시글이 존재하지 않습니다.")
         );
 
         // 예외처리 안되면 게시글 있다는 얘기니 그 게시물 번호로 댓글 저장
@@ -36,11 +37,11 @@ public class CommentService {
     public Long updateComment(Long commentId, CommentUpdateRequestDto requestDto, String username) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NullPointerException("해당 댓글이 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 댓글이 존재하지 않습니다.")
         );
 
         if (!comment.getUsername().equals(username)) {
-            throw new IllegalArgumentException("수정 권한이 없습니다.");
+            throw new ApiRequestException("수정 권한이 없습니다.");
         }
 
         comment.update(requestDto);
@@ -51,11 +52,11 @@ public class CommentService {
     public void deleteComment(Long commentId, String username) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NullPointerException("해당 댓글이 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 댓글이 존재하지 않습니다.")
         );
 
         if (!comment.getUsername().equals(username)) {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+            throw new ApiRequestException("삭제 권한이 없습니다.");
         }
         commentRepository.deleteById(commentId);
     }

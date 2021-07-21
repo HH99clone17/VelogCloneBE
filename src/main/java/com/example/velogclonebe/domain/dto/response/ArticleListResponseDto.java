@@ -15,6 +15,7 @@ public class ArticleListResponseDto {
     private String text;
     private String textHtml;
     private String textMarkdown;
+    private String imageUrl;
     private int countComment;
 
 
@@ -25,5 +26,6 @@ public class ArticleListResponseDto {
         this.textHtml = article.getTextHtml();
         this.textMarkdown = article.getTextMarkdown();
         this.countComment = commentList.size();
+        this.imageUrl = article.getImageUrl();
     }
 }
