@@ -11,7 +11,7 @@ import lombok.Setter;
 public class UserInfoResponseDto {
     private Long userId;
     private String username;
-    private String userThumbnail;
+//    private String userThumbnail;
 
     public UserInfoResponseDto(User user) {
         this.userId = user.getUserId();

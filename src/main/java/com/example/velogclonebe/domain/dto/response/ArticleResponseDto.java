@@ -15,6 +15,7 @@ public class ArticleResponseDto {
     private String text;
     private String textHtml;
     private String textMarkdown;
+    private String username;
     private List<CommentGetResponseDto> commentList;
 
     public ArticleResponseDto(Article article, List<CommentGetResponseDto> commentList) {
@@ -23,6 +24,7 @@ public class ArticleResponseDto {
         this.text = article.getText();
         this.textHtml = article.getTextHtml();
         this.textMarkdown = article.getTextMarkdown();
+        this.username = article.getUsername();
         this.commentList = commentList;
     }
 
