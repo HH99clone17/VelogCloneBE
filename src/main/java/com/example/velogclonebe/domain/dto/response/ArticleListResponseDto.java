@@ -5,6 +5,7 @@ import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.domain.entity.Comment;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,6 +18,9 @@ public class ArticleListResponseDto {
     private String textMarkdown;
     private String imageUrl;
     private int countComment;
+    private LocalDateTime createdAt;
+    private String username;
+
 
 
     public ArticleListResponseDto(Article article, List<Comment> commentList) {
@@ -27,5 +31,8 @@ public class ArticleListResponseDto {
         this.textMarkdown = article.getTextMarkdown();
         this.countComment = commentList.size();
         this.imageUrl = article.getImageUrl();
+        this.username = article.getUsername();
+        this.createdAt = article.getCreatedAt();
+
     }
 }
