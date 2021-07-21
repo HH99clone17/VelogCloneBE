@@ -3,6 +3,7 @@ package com.example.velogclonebe.controller;
 
 import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.UserInfoResponseDto;
+import com.example.velogclonebe.domain.dto.response.UserMypageResponseDto;
 import com.example.velogclonebe.domain.entity.User;
 import com.example.velogclonebe.domain.repository.UserRepository;
 import com.example.velogclonebe.service.UserService;
@@ -56,6 +57,12 @@ public class UserController {
     // public String admin() {
     //     return "admin";
     // }
+
+    // 마이페이지 요청
+    @GetMapping("/api/user/profile")
+    public UserMypageResponseDto getMypage(@AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getMypage(userDetails);
+    }
 
     // 유저 정보에 이미지 추가
     @PostMapping("/api/user/profile")
