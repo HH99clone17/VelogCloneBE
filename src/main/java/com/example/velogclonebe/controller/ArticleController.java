@@ -35,8 +35,8 @@ public class ArticleController {
                 @RequestParam("title") String title
                 , @RequestParam("text") String text
                 , @RequestParam("textHtml") String textHtml
-                , @RequestParam("textMarkdown") String textMarkdown
-                , @RequestParam("file") MultipartFile file
+                , @RequestParam(value="textMarkdown", required = false) String textMarkdown
+                , @RequestParam(value="image",required = false) MultipartFile file
                 , @AuthenticationPrincipal UserDetails userDetails
             ) throws IOException {
 
