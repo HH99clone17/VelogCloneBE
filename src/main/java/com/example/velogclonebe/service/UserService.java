@@ -5,15 +5,21 @@ import com.example.velogclonebe.domain.dto.response.UserInfoResponseDto;
 import com.example.velogclonebe.domain.entity.User;
 import com.example.velogclonebe.domain.repository.UserRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
+import com.example.velogclonebe.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final S3Uploader s3Uploader;
 
     @Transactional
     public void setUser(User user) {
@@ -34,4 +40,12 @@ public class UserService {
         UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(user);
         return userInfoResponseDto;
     }
+
+    @Transactional
+    public void createProfileImage(MultipartFile file, String username) throws IOException {
+        User user = userRepository.findByUsername(username);
+        String profileUrl = s3Uploader.upload(file, "profile");
+        user.setProfileUrl(profileUrl);
+    }
+
 }
