@@ -10,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -57,5 +56,14 @@ public class UserController {
     // public String admin() {
     //     return "admin";
     // }
+
+    // 유저 정보에 이미지 추가
+    @PostMapping("/api/user/profile")
+    public void createProfileImage(@RequestParam(value="file",required = false) MultipartFile file,
+                                   @AuthenticationPrincipal UserDetails userDetails)
+            throws IOException {
+        String username = userDetails.getUsername();
+        userService.createProfileImage(file, username);
+    }
 
 }
