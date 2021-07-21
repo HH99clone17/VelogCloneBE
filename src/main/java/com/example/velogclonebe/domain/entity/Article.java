@@ -50,6 +50,17 @@ public class Article extends Timestamped {
         this.countComment = 0L;
     }
 
+    public Article(String title, String text, String textHtml, String textMarkdown, String imageUrl, String username) {
+        this.title = title;
+        this.text = text;
+        this.textHtml = textHtml;
+        this.textMarkdown = textMarkdown;
+        this.imageUrl = imageUrl;
+        this.username = username;
+        this.countComment = 0L;
+    }
+
+
     public void update(ArticleUpdateRequestDto articleRequestDto) {
         this.title = articleRequestDto.getTitle();
         this.text = articleRequestDto.getText();
