@@ -31,7 +31,6 @@ public class ArticleController {
 
     // 게시글 작성
     @PostMapping("/api/article")
-    // public void setArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetails userDetails, @RequestParam("file") MultipartFile file) throws IOException {
     public void setArticle(
                 @RequestParam("title") String title
                 , @RequestParam("text") String text
