@@ -47,7 +47,6 @@ public class ArticleService {
 
     // 게시글 작성
     @Transactional
-    // public void setArticle(ArticleRequestDto articleRequestDto, MultipartFile file, String username) throws IOException {
     public void setArticle(String title, String text, String textHtml, String textMarkdown, MultipartFile file, String username) throws IOException {
 
         String imageUrl = s3Uploader.upload(file, "static");

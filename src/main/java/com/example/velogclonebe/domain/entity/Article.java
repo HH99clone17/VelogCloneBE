@@ -24,13 +24,13 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String text;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String textHtml;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String textMarkdown;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String imageUrl;
     
     @Column(nullable = false)
@@ -39,16 +39,6 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private Long countComment;
 
-
-    public Article(ArticleRequestDto articleRequestDto, String imageUrl,String username) {
-        this.title = articleRequestDto.getTitle();
-        this.text = articleRequestDto.getText();
-        this.textHtml = articleRequestDto.getTextHtml();
-        this.textMarkdown = articleRequestDto.getTextMarkdown();
-        this.imageUrl = imageUrl;
-        this.username = username;
-        this.countComment = 0L;
-    }
 
     public Article(String title, String text, String textHtml, String textMarkdown, String imageUrl, String username) {
         this.title = title;
