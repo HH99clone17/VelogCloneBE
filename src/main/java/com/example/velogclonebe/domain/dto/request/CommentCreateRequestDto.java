@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentCreateRequestDto {
     private String commentText;
-    private Long userId;
 }
