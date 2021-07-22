@@ -10,6 +10,7 @@ import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.domain.entity.Comment;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
+import com.example.velogclonebe.domain.repository.UserRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
 import com.example.velogclonebe.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
 
 
@@ -50,7 +52,18 @@ public class ArticleService {
     public void setArticle(String title, String text, String textHtml, String textMarkdown, MultipartFile file, String username) throws IOException {
 
         String imageUrl = s3Uploader.upload(file, "static");
-        Article article = new Article(title, text, textHtml, textMarkdown, imageUrl, username);
+        String profileUrl = userRepository.findByUsername(username).getProfileUrl();
+
+        // System.out.println("title ::::::::::::::::: " + title);
+        // System.out.println("text ::::::::::::::::: " + text);
+        // System.out.println("textHtml ::::::::::::::::: " + textHtml);
+        // System.out.println("textMarkdown ::::::::::::::::: " + textMarkdown);
+        // System.out.println("imageUrl ::::::::::::::::: " + imageUrl);
+        // System.out.println("username ::::::::::::::::: " + username);
+        // System.out.println("profileUrl ::::::::::::::::: " + profileUrl);
+
+
+        Article article = new Article(title, text, textHtml, textMarkdown, imageUrl, username, profileUrl);
         articleRepository.save(article);
     }
 

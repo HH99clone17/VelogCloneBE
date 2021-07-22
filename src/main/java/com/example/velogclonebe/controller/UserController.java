@@ -41,10 +41,10 @@ public class UserController {
     }
 
     // TEST - user, manager, admin 권한 접근 가능
-    @GetMapping("/api/v1/user")
-    public String user() {
-        return "user";
-    }
+    // @GetMapping("/api/v1/user")
+    // public String user() {
+    //     return "user";
+    // }
 
     // TEST - manager, admin 권한 접근 가능
     // @GetMapping("/api/v1/manager")

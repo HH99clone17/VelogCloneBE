@@ -18,6 +18,7 @@ public class ArticleResponseDto {
     private String textMarkdown;
     private String username;
     private LocalDateTime createdAt;
+    private String profileUrl;
     private List<CommentGetResponseDto> commentList;
 
     public ArticleResponseDto(Article article, List<CommentGetResponseDto> commentList) {
@@ -29,6 +30,7 @@ public class ArticleResponseDto {
         this.username = article.getUsername();
         this.createdAt = article.getCreatedAt();
         this.commentList = commentList;
+        this.profileUrl = article.getProfileUrl();
     }
 
 }

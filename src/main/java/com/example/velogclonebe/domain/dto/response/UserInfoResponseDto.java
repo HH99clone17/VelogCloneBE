@@ -11,12 +11,11 @@ import lombok.Setter;
 public class UserInfoResponseDto {
     private Long userId;
     private String username;
-//    private String userThumbnail;
+    private String profileUrl;
 
     public UserInfoResponseDto(User user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
-        // 추후 썸네일 추가
-        // this.userThumbnail = user.getUserThumbnail();
+        this.profileUrl = user.getProfileUrl();
     }
 }

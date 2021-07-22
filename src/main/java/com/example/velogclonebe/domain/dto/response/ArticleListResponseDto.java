@@ -20,6 +20,7 @@ public class ArticleListResponseDto {
     private int countComment;
     private LocalDateTime createdAt;
     private String username;
+    private String profileUrl;
 
 
 
@@ -33,6 +34,7 @@ public class ArticleListResponseDto {
         this.imageUrl = article.getImageUrl();
         this.username = article.getUsername();
         this.createdAt = article.getCreatedAt();
+        this.profileUrl = article.getProfileUrl();
 
     }
 }

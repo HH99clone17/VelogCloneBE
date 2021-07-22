@@ -35,18 +35,22 @@ public class Article extends Timestamped {
     
     @Column(nullable = false)
     private String username;
+
+    @Column(nullable = true)
+    private String profileUrl;
   
     @Column(nullable = false)
     private Long countComment;
 
 
-    public Article(String title, String text, String textHtml, String textMarkdown, String imageUrl, String username) {
+    public Article(String title, String text, String textHtml, String textMarkdown, String imageUrl, String username, String profileUrl) {
         this.title = title;
         this.text = text;
         this.textHtml = textHtml;
         this.textMarkdown = textMarkdown;
         this.imageUrl = imageUrl;
         this.username = username;
+        this.profileUrl = profileUrl;
         this.countComment = 0L;
     }
 
