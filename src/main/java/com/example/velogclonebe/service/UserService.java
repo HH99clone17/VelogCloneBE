@@ -20,6 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final String BASIC_PROFILE = "https://velogclonecoding.s3.ap-northeast-2.amazonaws.com/profile/basic_profile.png";
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
 
@@ -30,6 +31,7 @@ public class UserService {
         if (userRepository.existsByUsername(username)) {
             throw new ApiRequestException("이미 존재하는 유저이름입니다.");
         }
+        user.setProfileUrl(BASIC_PROFILE);
         userRepository.save(user);
     }
 
@@ -47,16 +49,15 @@ public class UserService {
     public UserMypageResponseDto getMypage(UserDetails userDetails) {
         String username = userDetails.getUsername();
         User user = userRepository.findByUsername(username);
-        if(user.getProfileUrl() == null){
-            return new UserMypageResponseDto(username, null);
-        } else {
-            return new UserMypageResponseDto(username, user.getProfileUrl());
-        }
+        return new UserMypageResponseDto(username, user.getProfileUrl());
     }
 
     @Transactional
-    public void createProfileImage(MultipartFile file, String username) throws IOException {
+    public void modifyProfileImage(MultipartFile file, String username) throws IOException {
         User user = userRepository.findByUsername(username);
+        if(user.getProfileUrl() != BASIC_PROFILE) {
+            s3Uploader.deletes3(user.getProfileUrl());
+        }
         String profileUrl = s3Uploader.upload(file, "profile");
         user.setProfileUrl(profileUrl);
     }

@@ -66,11 +66,11 @@ public class UserController {
 
     // 유저 정보에 이미지 추가
     @PostMapping("/api/user/profile")
-    public void createProfileImage(@RequestParam(value="file",required = false) MultipartFile file,
+    public void modifyProfileImage(@RequestParam(value="file",required = false) MultipartFile file,
                                    @AuthenticationPrincipal UserDetails userDetails)
             throws IOException {
         String username = userDetails.getUsername();
-        userService.createProfileImage(file, username);
+        userService.modifyProfileImage(file, username);
     }
 
 }
