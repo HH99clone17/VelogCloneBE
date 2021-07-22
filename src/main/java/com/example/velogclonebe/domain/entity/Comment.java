@@ -22,16 +22,20 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String username;
 
+    @Column(nullable = true)
+    private String profileUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)  // 두번 조회를 한다
     @JoinColumn(name = "articleId")
     private Article article;
 
 
-    public Comment(CommentCreateRequestDto requestDto, Article article, String username){
+    public Comment(CommentCreateRequestDto requestDto, Article article, String username, String profileUrl){
 
         this.commentText = requestDto.getCommentText();
         this.article = article;
         this.username = username;
+        this.profileUrl = profileUrl;
 
     }
 

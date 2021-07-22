@@ -6,6 +6,7 @@ import com.example.velogclonebe.domain.entity.Article;
 import com.example.velogclonebe.domain.entity.Comment;
 import com.example.velogclonebe.domain.repository.ArticleRepository;
 import com.example.velogclonebe.domain.repository.CommentRepository;
+import com.example.velogclonebe.domain.repository.UserRepository;
 import com.example.velogclonebe.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
 
 
     // 댓글 작성
@@ -27,9 +29,9 @@ public class CommentService {
                 () -> new ApiRequestException("해당 게시글이 존재하지 않습니다.")
         );
 
+        String profileUrl = userRepository.findByUsername(username).getProfileUrl();
 
-        // 예외처리 안되면 게시글 있다는 얘기니 그 게시물 번호로 댓글 저장
-        Comment comment = new Comment(requestDto, article, username);
+        Comment comment = new Comment(requestDto, article, username, profileUrl);
         commentRepository.save(comment);
         return comment;
     }

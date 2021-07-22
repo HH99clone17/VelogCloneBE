@@ -34,15 +34,13 @@ public class ArticleController {
     public void setArticle(
                 @RequestParam("title") String title
                 , @RequestParam("text") String text
-                , @RequestParam("textHtml") String textHtml
+                , @RequestParam(value="textHtml", required = false) String textHtml
                 , @RequestParam(value="textMarkdown", required = false) String textMarkdown
-                , @RequestParam(value="image",required = false) MultipartFile file
+                , @RequestParam(value="image", required = false) MultipartFile file
                 , @AuthenticationPrincipal UserDetails userDetails
             ) throws IOException {
 
-
         String username = userDetails.getUsername();
-        // articleService.setArticle(articleRequestDto, file, username);
         articleService.setArticle(title, text, textHtml, textMarkdown, file, username);
     }
 
