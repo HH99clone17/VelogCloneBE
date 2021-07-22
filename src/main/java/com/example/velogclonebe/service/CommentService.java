@@ -21,15 +21,17 @@ public class CommentService {
 
     // 댓글 작성
     @Transactional
-    public Long createComment(CommentCreateRequestDto requestDto, Long articleId, String username) {
+    public Comment createComment(CommentCreateRequestDto requestDto, Long articleId, String username) {
 
         Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new ApiRequestException("해당 게시글이 존재하지 않습니다.")
         );
 
+
         // 예외처리 안되면 게시글 있다는 얘기니 그 게시물 번호로 댓글 저장
         Comment comment = new Comment(requestDto, article, username);
-        return commentRepository.save(comment).getCommentId();
+        commentRepository.save(comment);
+        return comment;
     }
 
     // 댓글 수정
