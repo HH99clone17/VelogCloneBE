@@ -1,7 +1,6 @@
 package com.example.velogclonebe.controller;
 
 
-import com.example.velogclonebe.domain.dto.response.ArticleListResponseDto;
 import com.example.velogclonebe.domain.dto.response.UserInfoResponseDto;
 import com.example.velogclonebe.domain.dto.response.UserMypageResponseDto;
 import com.example.velogclonebe.domain.entity.User;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -66,11 +65,11 @@ public class UserController {
 
     // 유저 정보에 이미지 추가
     @PostMapping("/api/user/profile")
-    public void modifyProfileImage(@RequestParam(value="file",required = false) MultipartFile file,
-                                   @AuthenticationPrincipal UserDetails userDetails)
+    public Map<String, String> modifyProfileImage(@RequestParam(value="file",required = false) MultipartFile file,
+                                                  @AuthenticationPrincipal UserDetails userDetails)
             throws IOException {
         String username = userDetails.getUsername();
-        userService.modifyProfileImage(file, username);
+        return userService.modifyProfileImage(file, username);
     }
 
 }
